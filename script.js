@@ -27,9 +27,9 @@ var force = d3.layout.force()
 
 var default_node_color = "#ccc";
 //var default_node_color = "rgb(3,190,100)";
-var default_link_color = "#393942";
+var default_link_color = "#998f8f";
 var nominal_base_node_size = 8;
-var nominal_text_size = 10;
+var nominal_text_size = 12;
 var max_text_size = 24;
 var nominal_stroke = 1.5;
 var max_stroke = 4.5;
@@ -82,23 +82,27 @@ var graph = {
         { "source": 5, "target": 12 },
         { "source": 6, "target": 13 }],
     "nodes": [
-        { "size": 10, "score": 0, "id": "3dit-building-pub-tiles-7", "type": "circle" },
-        { "size": 10, "score": 0.2, "id": "acstestfuelprice-1", "type": "circle" },
-        { "size": 10, "score": 0.4, "id": "adam0-latest-na-0", "type": "circle" },
-        { "size": 10, "score": 0.6, "id": "adas-data-latest-weu", "type": "circle" },
-        { "size": 10, "score": 0.8, "id": "venue-test", "type": "circle" },
-        { "size": 10, "score": -1, "id": "test-new-attributes-rmobs", "type": "circle" },
-        { "id": "owc-rmob-bindu1106", "type": "circle" },
-        { "size": 10, "score": 0, "id": "lympia-acs-sit-sdcard", "type": "square" },
-        { "size": 10, "score": 0.2, "id": "ns-na-dev-01-stable", "type": "square" },
-        { "size": 10, "score": 0.4, "id": "northstar-twn-arc-routing-dal-1", "type": "square" },
-        { "size": 10, "score": 0.6, "id": "jason-eva-place-violations2-1", "type": "square" },
-        { "size": 10, "score": 0.8, "id": "jarikarj-admins-test", "type": "square" },
-        { "size": 10, "score": 1, "id": "jho-test-emr-source", "type": "square" },
-        { "id": "jpk-arc-mld-converter-1", "type": "triangle-down" }],
+        { "version": 1, "description": "Custom information from 0", "size": 100, "score": 0, "id": "3dit-building-pub-tiles-7", "type": "circle" },
+        { "version": 2, "description": "Custom information from 1", "size": 30, "score": 0.2, "id": "acstestfuelprice-1", "type": "circle" },
+        { "version": 17, "description": "Custom information from 2", "size": 30, "score": 0.4, "id": "adam0-latest-na-0", "type": "circle" },
+        { "version": 18, "description": "Custom information from 3", "size": 30, "score": 0.6, "id": "adas-data-latest-weu", "type": "circle" },
+        { "version": 1, "description": "Custom information from 4", "size": 30, "score": 0.8, "id": "venue-test", "type": "circle" },
+        { "version": 3, "description": "Custom information from 5", "size": 30, "score": -1, "id": "test-new-attributes-rmobs", "type": "circle" },
+        { "version": 1, "description": "Custom information from 6", "size": 30, "id": "owc-rmob-bindu1106", "type": "circle" },
+        { "version": 5, "description": "Custom information from 7", "size": 30, "score": 0, "id": "lympia-acs-sit-sdcard", "type": "square" },
+        { "version": 1, "description": "Custom information from 8", "size": 30, "score": 0.2, "id": "ns-na-dev-01-stable", "type": "square" },
+        { "version": 1, "description": "Custom information from 9", "size": 30, "score": 0.4, "id": "northstar-twn-arc-routing-dal-1", "type": "square" },
+        { "version": 9, "description": "Custom information from 10", "size": 30, "score": 0.6, "id": "jason-eva-place-violations2-1", "type": "square" },
+        { "version": 11, "description": "Custom information from 11", "size": 30, "score": 0.8, "id": "jarikarj-admins-test", "type": "square" },
+        { "version": 15, "description": "Custom information from 12", "size": 30, "score": 1, "id": "jho-test-emr-source", "type": "square" },
+        { "version": 10, "description": "Custom information from 13", "size": 30, "id": "jpk-arc-mld-converter-1", "type": "triangle-down" }],
     "directed": true,
     "multigraph": false
 };
+
+var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
 
 var linkedByIndex = {};
 graph.links.forEach(function (d) {
@@ -190,8 +194,22 @@ else
     text.attr("dx", function (d) { return (size(d.size) || nominal_base_node_size); })
         .text(function (d) { return '\u2002' + d.id; });
 
+var textVersion = node.append("text")
+    .attr("text-anchor", "middle")
+    .attr("dy", ".35em")
+    .style("font-size", nominal_text_size + "px")
+    .text(function (d) {
+        return d.version;
+    });
+
 node.on("mouseover", function (d) {
     set_highlight(d);
+    div.transition()
+        .duration(200)
+        .style("opacity", .9);
+    div.html(d.description)
+        .style("left", (d3.event.pageX - 120) + "px")
+        .style("top", (d3.event.pageY - 28) + "px");
 })
     .on("mousedown", function (d) {
         d3.event.stopPropagation();
@@ -201,6 +219,9 @@ node.on("mouseover", function (d) {
 
     }).on("mouseout", function (d) {
         exit_highlight();
+        div.transition()
+            .duration(500)
+            .style("opacity", 0);
 
     });
 
@@ -212,6 +233,7 @@ d3.select(window).on("mouseup",
 
                 circle.style("opacity", 1);
                 text.style("opacity", 1);
+                textVersion.style("opacity", 1);
                 link.style("opacity", 1);
             }
         }
@@ -242,6 +264,10 @@ function set_focus(d) {
             return isConnected(d, o) ? 1 : highlight_trans;
         });
 
+        textVersion.style("opacity", function (o) {
+            return isConnected(d, o) ? 1 : highlight_trans;
+        });
+
         link.style("opacity", function (o) {
             return o.source.index == d.index || o.target.index == d.index ? 1 : highlight_trans;
         });
@@ -259,6 +285,9 @@ function set_highlight(d) {
             return isConnected(d, o) ? highlight_color : "white";
         });
         text.style("font-weight", function (o) {
+            return isConnected(d, o) ? "bold" : "normal";
+        });
+        textVersion.style("font-weight", function (o) {
             return isConnected(d, o) ? "bold" : "normal";
         });
         link.style("stroke", function (o) {
@@ -323,13 +352,13 @@ function resize() {
 
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
-}	
+}
 
 window.addEventListener("resize", recalculate);
 
-function recalculate(){
-  w = window.innerWidth;
-  h = window.innerHeight;
-  
-  force.size([w, h]);
+function recalculate() {
+    w = window.innerWidth;
+    h = window.innerHeight;
+
+    force.size([w, h]);
 }
