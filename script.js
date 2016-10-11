@@ -95,7 +95,7 @@ var graph = {
         { "version": 9, "description": "Custom information from 10", "size": 30, "score": 0.6, "id": "jason-eva-place-violations2-1", "type": "square" },
         { "version": 11, "description": "Custom information from 11", "size": 30, "score": 0.8, "id": "jarikarj-admins-test", "type": "square" },
         { "version": 15, "description": "Custom information from 12", "size": 30, "score": 1, "id": "jho-test-emr-source", "type": "square" },
-        { "version": 10, "description": "Custom information from 13", "size": 30, "id": "jpk-arc-mld-converter-1", "type": "triangle-down" }],
+        { "version": 10, "description": "Custom information from 13", "size": 30, "id": "jpk-arc-mld-converter-1", "type": "diamond" }],
     "directed": true,
     "multigraph": false
 };
@@ -248,6 +248,7 @@ function exit_highlight() {
         if (highlight_color != "white") {
             circle.style(towhite, "white");
             text.style("font-weight", "normal");
+            textVersion.style("font-weight", "normal");
             link.style("stroke", function (o) { return (isNumber(o.score) && o.score >= 0) ? color(o.score) : default_link_color });
         }
 
