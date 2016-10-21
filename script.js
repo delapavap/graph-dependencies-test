@@ -1,6 +1,9 @@
+var elementId = 'graphContainer';
 
-var w = window.innerWidth,
-    h = window.innerHeight;
+var graphContainer = document.getElementById(elementId);
+console.log(graphContainer);
+var w = graphContainer.offsetWidth,
+    h = graphContainer.offsetHeight;
 
 var focus_node = null,
     highlight_node = null,
@@ -14,7 +17,7 @@ var color = d3.scale.linear()
     .domain([min_score, (min_score + max_score) / 2, max_score])
     .range(["lime", "yellow", "red"]);
 
-var highlight_color = "blue",
+var highlight_color = "#6BCCC3",
     highlight_trans = 0.1;
 
 var size = d3.scale.pow().exponent(1)
@@ -23,7 +26,7 @@ var size = d3.scale.pow().exponent(1)
 
 var force = d3.layout.force()
     .linkDistance(200)
-    .charge(-300)
+    .charge(-900)
     .size([w, h]);
 
 var default_node_color = "#ccc",
@@ -35,16 +38,16 @@ var default_node_color = "#ccc",
     max_stroke = 4.5,
     max_base_node_size = 36,
     min_zoom = 0.1,
-    max_zoom = 7;
+    max_zoom = 3.5;
 
-var svg = d3.select("body").append("svg");
+var svg = d3.select("#" + elementId).append("svg");
 
 svg.append("svg:defs").selectAll("marker")
     .data(["end"])      // Different link/path types can be defined here
     .enter().append("svg:marker")    // This section adds in the arrows
     .attr("id", String)
     .attr("viewBox", "0 -5 10 10")
-    .attr("refX", 25)
+    .attr("refX", 45)
     .attr("refY", 0)
     .attr("markerWidth", 5)
     .attr("markerHeight", 5)
@@ -61,12 +64,12 @@ svg.style("cursor", "move");
 var graph = {
     "graph": [],
     "links": [
-        { "source": 0, "target": 1 },
         { "source": 0, "target": 2 },
         { "source": 0, "target": 3 },
         { "source": 0, "target": 4 },
         { "source": 0, "target": 5 },
         { "source": 0, "target": 6 },
+        { "source": 1, "target": 0 },
         { "source": 1, "target": 3 },
         { "source": 1, "target": 4 },
         { "source": 1, "target": 5 },
@@ -85,23 +88,28 @@ var graph = {
         { "source": 5, "target": 12 },
         { "source": 6, "target": 13 }],
     "nodes": [
-        { "version": 1, "description": "Custom information from 0", "size": 100, "score": 0, "id": "3dit-building-pub-tiles-7", "type": "circle" },
-        { "version": 2, "description": "Custom information from 1", "size": 30, "score": 0.2, "id": "acstestfuelprice-1", "type": "circle" },
-        { "version": 17, "description": "Custom information from 2", "size": 30, "score": 0.4, "id": "adam0-latest-na-0", "type": "circle" },
-        { "version": 18, "description": "Custom information from 3", "size": 30, "score": 0.6, "id": "adas-data-latest-weu", "type": "circle" },
-        { "version": 1, "description": "Custom information from 4", "size": 30, "score": 0.8, "id": "venue-test", "type": "circle" },
-        { "version": 3, "description": "Custom information from 5", "size": 30, "score": -1, "id": "test-new-attributes-rmobs", "type": "circle" },
-        { "version": 1, "description": "Custom information from 6", "size": 30, "id": "owc-rmob-bindu1106", "type": "circle" },
-        { "version": 5, "description": "Custom information from 7", "size": 30, "score": 0, "id": "lympia-acs-sit-sdcard", "type": "square" },
-        { "version": 1, "description": "Custom information from 8", "size": 30, "score": 0.2, "id": "ns-na-dev-01-stable", "type": "square" },
-        { "version": 1, "description": "Custom information from 9", "size": 30, "score": 0.4, "id": "northstar-twn-arc-routing-dal-1", "type": "square" },
-        { "version": 9, "description": "Custom information from 10", "size": 30, "score": 0.6, "id": "jason-eva-place-violations2-1", "type": "square" },
-        { "version": 11, "description": "Custom information from 11", "size": 30, "score": 0.8, "id": "jarikarj-admins-test", "type": "square" },
-        { "version": 15, "description": "Custom information from 12", "size": 30, "score": 1, "id": "jho-test-emr-source", "type": "square" },
-        { "version": 10, "description": "Custom information from 13", "size": 30, "id": "jpk-arc-mld-converter-1", "type": "diamond" }],
+        {"id":0, "version": 1, "description": "Custom information from 0", "size": 100, "score": 0, "name": "3dit-building-pub-tiles-7", "type": "circle" },
+        {"id":1, "version": 2, "description": "Custom information from 1", "size": 100, "score": 0.2, "name": "acstestfuelprice-1", "type": "circle" },
+        {"id":2, "version": 17, "description": "Custom information from 2", "size": 100, "score": 0.4, "name": "adam0-latest-na-0", "type": "circle" },
+        {"id":3, "version": 18, "description": "Custom information from 3", "size": 100, "score": 0.6, "name": "adas-data-latest-weu", "type": "circle" },
+        {"id":4, "version": 1, "description": "Custom information from 4", "size": 100, "score": 0.8, "name": "venue-test", "type": "circle" },
+        {"id":5, "version": 3, "description": "Custom information from 5", "size": 100, "score": -1, "name": "test-new-attributes-rmobs", "type": "circle" },
+        {"id":6, "version": 1, "description": "Custom information from 6", "size": 100, "name": "owc-rmob-bindu1106", "type": "circle" },
+        {"id":7, "version": 5, "description": "Custom information from 7", "size": 100, "score": 0, "name": "lympia-acs-sit-sdcard", "type": "square" },
+        {"id":8, "version": 1, "description": "Custom information from 8", "size": 100, "score": 0.2, "name": "ns-na-dev-01-stable", "type": "square" },
+        {"id":9, "version": 16545, "description": "Custom information from 9", "size": 100, "score": 0.4, "name": "northstar-twn-arc-routing-dal-1", "type": "square" },
+        {"id":10, "version": 9, "description": "Custom information from 10", "size": 100, "score": 0.6, "name": "jason-eva-place-violations2-1", "type": "square" },
+        {"id":11, "version": 11, "description": "Custom information from 11", "size": 100, "score": 0.8, "name": "jarikarj-admins-test", "type": "square" },
+        {"id":12, "version": 15, "description": "Custom information from 12", "size": 100, "score": 1, "name": "jho-test-emr-source", "type": "square" },
+        {"id":13, "version": 10, "description": "Custom information from 13", "size": 100, "name": "jpk-arc-mld-converter-1", "type": "diamond" }],
     "directed": true,
     "multigraph": false
 };
+
+var n = graph.nodes.length;
+graph.nodes.forEach(function (d, i) {
+    d.x = d.y = w / n * i;
+});
 
 var tooltip = d3.select("body").append("div")
     .attr("class", "tooltip")
@@ -147,9 +155,9 @@ var link = g.selectAll(".link")
 var node = g.selectAll(".node")
     .data(graph.nodes)
     .enter().append("g")
-    .attr("class", "node")
+    .attr("class", "node");
 
-    .call(force.drag);
+//.call(force.drag);
 
 
 node.on("dblclick.zoom", function (d) {
@@ -172,7 +180,7 @@ var circle = node.append("path")
 
     .attr("d", d3.svg.symbol()
         .size(function (d) { return Math.PI * Math.pow(size(d.size) || nominal_base_node_size, 2); })
-        .type(function (d) { return d.type; }))
+        .type(function (d) { return /*d.type;*/ 'circle'; }))
 
     .style(tocolor, function (d) {
         if (isNumber(d.score) && d.score >= 0) return color(d.score);
@@ -190,16 +198,16 @@ var text = g.selectAll(".text")
     .style("font-size", nominal_text_size + "px");
 
 if (text_center)
-    text.text(function (d) { return d.id; })
+    text.text(function (d) { return d.name; })
         .style("text-anchor", "middle");
 else
     text.attr("dx", function (d) { return (size(d.size) || nominal_base_node_size); })
-        .text(function (d) { return '\u2002' + d.id; });
+        .text(function (d) { return '\u2002' + d.name; });
 
 var textVersion = node.append("text")
     .attr("text-anchor", "middle")
     .attr("dy", ".35em")
-    .style("font-size", nominal_text_size + "px")
+    .style("font-size", nominal_text_size - 1 + "px")
     .text(function (d) {
         return d.version;
     });
@@ -238,7 +246,7 @@ d3.select(window).on("mouseup",
             }
         }
 
-        if (highlight_node === null) exitHighlight();
+        //if (highlight_node === null) exitHighlight();
     });
 
 function exitHighlight() {
@@ -249,8 +257,8 @@ function exitHighlight() {
             circle.style(towhite, "white");
             text.style("font-weight", "normal");
             textVersion.style("font-weight", "normal");
-            link.style("stroke", function (o) { 
-                return (isNumber(o.score) && o.score >= 0) ? color(o.score) : default_link_color; 
+            link.style("stroke", function (o) {
+                return (isNumber(o.score) && o.score >= 0) ? color(o.score) : default_link_color;
             });
         }
 
@@ -308,7 +316,7 @@ zoom.on("zoom", function () {
     if (nominal_base_node_size * zoom.scale() > max_base_node_size) base_radius = max_base_node_size / zoom.scale();
     circle.attr("d", d3.svg.symbol()
         .size(function (d) { return Math.PI * Math.pow(size(d.size) * base_radius / nominal_base_node_size || base_radius, 2); })
-        .type(function (d) { return d.type; }));
+        .type(function (d) { return /*d.type;*/ 'circle'; }));
 
     //circle.attr("r", function(d) { return (size(d.size)*base_radius/nominal_base_node_size||base_radius); })
     if (!text_center) text.attr("dx", function (d) { return (size(d.size) * base_radius / nominal_base_node_size || base_radius); });
@@ -341,7 +349,7 @@ force.on("tick", function () {
 });
 
 function resize() {
-    var width = window.innerWidth, height = window.innerHeight;
+    var width = document.getElementById(elementId).offsetWidth, height = document.getElementById(elementId).offsetHeight;
     svg.attr("width", width).attr("height", height);
 
     force.size([force.size()[0] + (width - w) / zoom.scale(), force.size()[1] + (height - h) / zoom.scale()]).resume();

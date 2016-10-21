@@ -1,7 +1,7 @@
    body {
        overflow: hidden;
        margin: 0;
-       background: #2cb1f4;
+       /*background: #373D49;*/
    }
    
    text {
@@ -20,4 +20,9 @@
        background: black;
        border: 0px;
        pointer-events: none;
+   }
+
+   #graphContainer {
+       width: 100vw;
+       height: 100vh;
    }
