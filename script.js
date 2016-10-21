@@ -7,7 +7,7 @@ var w = graphContainer.offsetWidth,
 
 var focus_node = null,
     highlight_node = null,
-    text_center = false,
+    text_center = true,
     outline = false;
 
 var min_score = 0,
@@ -88,20 +88,20 @@ var graph = {
         { "source": 5, "target": 12 },
         { "source": 6, "target": 13 }],
     "nodes": [
-        {"id":0, "version": 1, "description": "Custom information from 0", "size": 100, "score": 0, "name": "3dit-building-pub-tiles-7", "type": "circle" },
-        {"id":1, "version": 2, "description": "Custom information from 1", "size": 100, "score": 0.2, "name": "acstestfuelprice-1", "type": "circle" },
-        {"id":2, "version": 17, "description": "Custom information from 2", "size": 100, "score": 0.4, "name": "adam0-latest-na-0", "type": "circle" },
-        {"id":3, "version": 18, "description": "Custom information from 3", "size": 100, "score": 0.6, "name": "adas-data-latest-weu", "type": "circle" },
-        {"id":4, "version": 1, "description": "Custom information from 4", "size": 100, "score": 0.8, "name": "venue-test", "type": "circle" },
-        {"id":5, "version": 3, "description": "Custom information from 5", "size": 100, "score": -1, "name": "test-new-attributes-rmobs", "type": "circle" },
-        {"id":6, "version": 1, "description": "Custom information from 6", "size": 100, "name": "owc-rmob-bindu1106", "type": "circle" },
-        {"id":7, "version": 5, "description": "Custom information from 7", "size": 100, "score": 0, "name": "lympia-acs-sit-sdcard", "type": "square" },
-        {"id":8, "version": 1, "description": "Custom information from 8", "size": 100, "score": 0.2, "name": "ns-na-dev-01-stable", "type": "square" },
-        {"id":9, "version": 16545, "description": "Custom information from 9", "size": 100, "score": 0.4, "name": "northstar-twn-arc-routing-dal-1", "type": "square" },
-        {"id":10, "version": 9, "description": "Custom information from 10", "size": 100, "score": 0.6, "name": "jason-eva-place-violations2-1", "type": "square" },
-        {"id":11, "version": 11, "description": "Custom information from 11", "size": 100, "score": 0.8, "name": "jarikarj-admins-test", "type": "square" },
-        {"id":12, "version": 15, "description": "Custom information from 12", "size": 100, "score": 1, "name": "jho-test-emr-source", "type": "square" },
-        {"id":13, "version": 10, "description": "Custom information from 13", "size": 100, "name": "jpk-arc-mld-converter-1", "type": "diamond" }],
+        {"id":0, "version": 1, "description": "Custom information from 0", "size": 120, "score": 0, "name": "3dit-building-pub-tiles-7", "type": "circle" },
+        {"id":1, "version": 2, "description": "Custom information from 1", "size": 120, "score": 0.2, "name": "acstestfuelprice-1", "type": "circle" },
+        {"id":2, "version": 17, "description": "Custom information from 2", "size": 120, "score": 0.4, "name": "adam0-latest-na-0", "type": "circle" },
+        {"id":3, "version": 18, "description": "Custom information from 3", "size": 120, "score": 0.6, "name": "adas-data-latest-weu", "type": "circle" },
+        {"id":4, "version": 1, "description": "Custom information from 4", "size": 120, "score": 0.8, "name": "venue-test", "type": "circle" },
+        {"id":5, "version": 3, "description": "Custom information from 5", "size": 120, "score": -1, "name": "test-new-attributes-rmobs", "type": "circle" },
+        {"id":6, "version": 1, "description": "Custom information from 6", "size": 120, "name": "owc-rmob-bindu1106", "type": "circle" },
+        {"id":7, "version": 5, "description": "Custom information from 7", "size": 120, "score": 0, "name": "lympia-acs-sit-sdcard", "type": "square" },
+        {"id":8, "version": 1, "description": "Custom information from 8", "size": 120, "score": 0.2, "name": "ns-na-dev-01-stable", "type": "square" },
+        {"id":9, "version": 16545, "description": "Custom information from 9", "size": 120, "score": 0.4, "name": "northstar-twn-arc-routing-dal-1", "type": "square" },
+        {"id":10, "version": 9, "description": "Custom information from 10", "size": 120, "score": 0.6, "name": "jason-eva-place-violations2-1", "type": "square" },
+        {"id":11, "version": 11, "description": "Custom information from 11", "size": 120, "score": 0.8, "name": "jarikarj-admins-test", "type": "square" },
+        {"id":12, "version": 15, "description": "Custom information from 12", "size": 120, "score": 1, "name": "jho-test-emr-source", "type": "square" },
+        {"id":13, "version": 10, "description": "Custom information from 13", "size": 120, "name": "jpk-arc-mld-converter-1", "type": "diamond" }],
     "directed": true,
     "multigraph": false
 };
@@ -199,7 +199,8 @@ var text = g.selectAll(".text")
 
 if (text_center)
     text.text(function (d) { return d.name; })
-        .style("text-anchor", "middle");
+        .style("text-anchor", "middle")
+        .attr("dy", 40);
 else
     text.attr("dx", function (d) { return (size(d.size) || nominal_base_node_size); })
         .text(function (d) { return '\u2002' + d.name; });
